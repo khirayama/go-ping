@@ -29,7 +29,16 @@ func main() {
 	}
 	host := os.Args[1]
 
-	// ip, err := getIPAddr(host)
-	ip, _ := getIPAddr(host)
-	fmt.Println(ip)
+	ip, err := getIPAddr(host)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "getIPAddr")
+		os.Exit(1)
+	}
+
+	conn, err := net.Dial("ip4:1", ip.String()) // なんでip.String()してるんだ？
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "net.Dial", err)
+		os.Exit(1)
+	}
+	defer conn.Close() // main終了時に呼ばれる
 }
