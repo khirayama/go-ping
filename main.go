@@ -41,4 +41,6 @@ func main() {
 		os.Exit(1)
 	}
 	defer conn.Close() // main終了時に呼ばれる
+
+	fmt.Println("PING", os.Args[1], "(", ip, ")")
 }
