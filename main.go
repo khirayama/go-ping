@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"os/signal"
 )
 
 func getIPAddr(host string) (net.IP, error) {
@@ -43,4 +44,7 @@ func main() {
 	defer conn.Close() // main終了時に呼ばれる
 
 	fmt.Println("PING", os.Args[1], "(", ip, ")")
+	sigc := make(chan os.Signal, 1) // makeはスライス、マップ、チャネルのみ
+	signal.Notify(sigc, os.Interrupt)
+	// c := make(chan int, 1)
 }
