@@ -23,6 +23,9 @@ func getIPAddr(host string) (net.IP, error) {
 	return nil, errors.New("IP address not found")
 }
 
+func pinger(conn net.Conn, id uint16, sigc chan os.Signal, c chan int) {
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Fprintf(os.Stderr, "arg error")
@@ -43,8 +46,12 @@ func main() {
 	}
 	defer conn.Close() // main終了時に呼ばれる
 
+	// このブロックよく理解できてないな
 	fmt.Println("PING", os.Args[1], "(", ip, ")")
 	sigc := make(chan os.Signal, 1) // makeはスライス、マップ、チャネルのみ
 	signal.Notify(sigc, os.Interrupt)
-	// c := make(chan int, 1)
+	c := make(chan int, 1)
+
+	id := uint16(os.Getpid() & 0xfff)
+	go pinger(conn, id, sigc, c)
 }
