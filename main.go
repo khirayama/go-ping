@@ -48,7 +48,7 @@ func main() {
 
 	// このブロックよく理解できてないな
 	fmt.Println("PING", os.Args[1], "(", ip, ")")
-	sigc := make(chan os.Signal, 1) // makeはスライス、マップ、チャネルのみ
+	sigc := make(chan os.Signal, 1) // makeはスライス、マップ、チャネルのみのnew的なもの
 	signal.Notify(sigc, os.Interrupt)
 	c := make(chan int, 1)
 
