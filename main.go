@@ -24,6 +24,10 @@ func getIPAddr(host string) (net.IP, error) {
 }
 
 func pinger(conn net.Conn, id uint16, sigc chan os.Signal, c chan int) {
+	nt := 0
+	seq := uint16(0)
+	t := time.NewTicker(1 * time.Second)
+	done := false
 }
 
 func main() {
