@@ -48,8 +48,8 @@ func main() {
 
 	// このブロックよく理解できてないな
 	fmt.Println("PING", os.Args[1], "(", ip, ")")
-	sigc := make(chan os.Signal, 1) // makeはスライス、マップ、チャネルのみのnew的なもの
-	signal.Notify(sigc, os.Interrupt)
+	sigc := make(chan os.Signal, 1)   // makeはスライス、マップ、チャネルのみのnew的なもの
+	signal.Notify(sigc, os.Interrupt) // https://golang.org/pkg/os/signal/#Notify
 	c := make(chan int, 1)
 
 	id := uint16(os.Getpid() & 0xfff)
