@@ -30,8 +30,14 @@ func pinger(conn net.Conn, id uint16, sigc chan os.Signal, c chan int) {
 	done := false
 	for !done {
 		select {
-		case <-sigc:
+		case <-sigc: // <- ってなんだったけ？
 			done = true
+		case <-t.C:
+			tb, err := time.Now().MarshalBinary()
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Time.MarshalBinary:", err)
+				os.Exit(1)
+			}
 		}
 	}
 }
