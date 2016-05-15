@@ -28,6 +28,12 @@ func pinger(conn net.Conn, id uint16, sigc chan os.Signal, c chan int) {
 	seq := uint16(0)
 	t := time.NewTicker(1 * time.Second)
 	done := false
+	for !done {
+		select {
+		case <-sigc:
+			done = true
+		}
+	}
 }
 
 func main() {
