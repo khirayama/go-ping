@@ -23,6 +23,15 @@ func getIPAddr(host string) (net.IP, error) {
 	return nil, errors.New("IP address not found")
 }
 
+type EchoMessage struct {
+	Type     Type
+	Code     uint8
+	Checksum uint16
+	ID       uint16
+	Seq      uint16
+	Data     []byte
+}
+
 func pinger(conn net.Conn, id uint16, sigc chan os.Signal, c chan int) {
 	nt := 0
 	seq := uint16(0)
@@ -37,6 +46,13 @@ func pinger(conn net.Conn, id uint16, sigc chan os.Signal, c chan int) {
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Time.MarshalBinary:", err)
 				os.Exit(1)
+			}
+			m := EchoMessage{
+				Type: ECHO,
+				Code: 0,
+				ID:   id,
+				Seq:  seq,
+				Data: tb,
 			}
 		}
 	}
